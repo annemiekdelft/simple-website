@@ -292,8 +292,12 @@ img {
 
 .embedded-survey-host {
   min-height: 0;
+  margin-top: 28px;
   padding: 0;
-  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
 }
 
 .embedded-survey-host .feedback-placeholder {
@@ -301,7 +305,7 @@ img {
 }
 
 .embedded-survey-host .webf-injected-wrapper {
-  border-radius: inherit;
+  border-radius: 0;
   box-shadow: none;
 }
 
