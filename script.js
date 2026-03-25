@@ -3,132 +3,58 @@ if (window.location.hostname === "annemiekdelft.github.io") {
   throw new Error("Redirecting to Render deployment.");
 }
 
-const resultsList = document.querySelector("#results-list");
-const statusPill = document.querySelector("#status-pill");
+const secondSurveyId = "019d2440-d493-7bfb-9b96-e54a6a05b7c4";
 
-function setStatus(label) {
-  if (!statusPill) {
+const surveyConfigs = [
+  {
+    scriptId: "019d2446-2128-7bfb-a14a-18339d475df7",
+    apiBaseUrl: `${window.location.origin}/insocial-api`,
+    surveyBaseUrl: "https://uat-f.insocial.nl",
+    metadata: {},
+  },
+  {
+    scriptId: secondSurveyId,
+    apiBaseUrl: `${window.location.origin}/insocial-api`,
+    surveyBaseUrl: "https://uat-f.insocial.nl",
+    metadata: {},
+  },
+  {
+    scriptId: "019d243b-d171-7983-834c-61b3fd54bbe5",
+    apiBaseUrl: `${window.location.origin}/insocial-api`,
+    surveyBaseUrl: "https://uat-f.insocial.nl",
+    metadata: {},
+  },
+];
+
+function connectCustomButtonFallback() {
+  const trigger = document.querySelector("#survey-custom-element");
+  if (!trigger || !window.surveyLoader) {
     return;
   }
-  statusPill.textContent = label;
+
+  trigger.addEventListener("click", () => {
+    try {
+      window.surveyLoader.open(secondSurveyId);
+    } catch (_error) {
+      // The vendor config already binds this button. This fallback only exists
+      // in case that binding does not attach for some reason.
+    }
+  });
 }
 
-function appendResult(message, kind) {
-  if (!resultsList) {
-    return;
-  }
-  const item = document.createElement("li");
-  item.textContent = message;
+(function () {
+  const script = document.createElement("script");
+  script.src = "https://web-f.insocial.nl/survey-loader-3.0.4.min.js";
+  script.integrity = "sha384-Y+0fCbU8M3M6Lj3HCnsEiQtZbRMynG4l0odZ9JRrHXUIUF+BmSgw/hynVfLfl+X4";
+  script.async = true;
+  script.crossOrigin = "anonymous";
+  script.addEventListener("load", function () {
+    if (!window.surveyLoader) {
+      return;
+    }
 
-  if (kind === "success") {
-    item.classList.add("result-success");
-  }
-
-  if (kind === "error") {
-    item.classList.add("result-error");
-  }
-
-  if (
-    resultsList.children.length === 1 &&
-    resultsList.firstElementChild.textContent === "Survey tab script configured and loading automatically."
-  ) {
-    resultsList.innerHTML = "";
-  }
-
-  resultsList.appendChild(item);
-}
-
-function debug(message, kind = "success") {
-  appendResult(message, kind);
-}
-
-function installFirstSurveyScript() {
-  setStatus("Loading");
-
-  try {
-    (function () {
-      const a = document.createElement("script");
-      a.src = "https://web-f.insocial.nl/survey-loader-3.0.4.min.js";
-      a.integrity = "sha384-Y+0fCbU8M3M6Lj3HCnsEiQtZbRMynG4l0odZ9JRrHXUIUF+BmSgw/hynVfLfl+X4";
-      a.async = true;
-      a.crossOrigin = "anonymous";
-      a.addEventListener("load", function () {
-        if (!window.surveyLoader) {
-          debug("Survey loader script loaded, but surveyLoader was not found.", "error");
-          setStatus("Error");
-          return;
-        }
-
-        try {
-          window.surveyLoader.init({
-            scriptId: "019d2446-2128-7bfb-a14a-18339d475df7",
-            apiBaseUrl: `${window.location.origin}/insocial-api`,
-            surveyBaseUrl: "https://uat-f.insocial.nl",
-            metadata: {},
-          });
-        } catch (error) {
-          debug(`surveyLoader.init() threw: ${error.message}`, "error");
-          setStatus("Error");
-          return;
-        }
-
-        debug("Survey tab script initialized.");
-        setStatus("Active");
-      });
-      a.addEventListener("error", function () {
-        debug("Survey tab script failed to load from InSocial.", "error");
-        setStatus("Error");
-      });
-      document.head.appendChild(a);
-    })();
-  } catch (error) {
-    debug(`Survey tab script failed before initialization: ${error.message}`, "error");
-    setStatus("Error");
-  }
-}
-
-function installSecondSurveyScript() {
-  (function() {
-      var a = document.createElement('script');
-      a.src = 'https://web-f.insocial.nl/survey-loader-3.0.4.min.js';
-      a.integrity = 'sha384-Y+0fCbU8M3M6Lj3HCnsEiQtZbRMynG4l0odZ9JRrHXUIUF+BmSgw/hynVfLfl+X4';
-      a.async = 'true';
-      a.crossOrigin = 'anonymous';
-      a.addEventListener('load', function() {
-          surveyLoader.init({
-          scriptId: "019d2440-d493-7bfb-9b96-e54a6a05b7c4",
-          apiBaseUrl: `${window.location.origin}/insocial-api`,
-          surveyBaseUrl: "https://uat-f.insocial.nl",
-          metadata: {
-          }
-      });
-      debug("Give Feedback button connected.");
-      });
-      document.head.appendChild(a);
-  })();
-}
-
-function installThirdSurveyScript() {
-  (function() {
-      var a = document.createElement('script');
-      a.src = 'https://web-f.insocial.nl/survey-loader-3.0.4.min.js';
-      a.integrity = 'sha384-Y+0fCbU8M3M6Lj3HCnsEiQtZbRMynG4l0odZ9JRrHXUIUF+BmSgw/hynVfLfl+X4';
-      a.async = 'true';
-      a.crossOrigin = 'anonymous';
-      a.addEventListener('load', function() {
-          surveyLoader.init({
-          scriptId: "019d243b-d171-7983-834c-61b3fd54bbe5",
-          apiBaseUrl: `${window.location.origin}/insocial-api`,
-          surveyBaseUrl: "https://uat-f.insocial.nl",
-          metadata: {
-          }
-      });
-      debug("Embedded survey connected.");
-      });
-      document.head.appendChild(a);
-  })();
-}
-
-installFirstSurveyScript();
-installSecondSurveyScript();
-installThirdSurveyScript();
+    window.surveyLoader.init(surveyConfigs);
+    connectCustomButtonFallback();
+  });
+  document.head.appendChild(script);
+})();
