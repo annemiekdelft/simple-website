@@ -290,6 +290,21 @@ img {
   background: var(--surface);
 }
 
+.embedded-survey-host {
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.embedded-survey-host .feedback-placeholder {
+  display: none;
+}
+
+.embedded-survey-host .webf-injected-wrapper {
+  border-radius: inherit;
+  box-shadow: none;
+}
+
 .feedback-action {
   display: flex;
   align-items: center;
