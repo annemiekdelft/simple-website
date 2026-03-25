@@ -5,8 +5,6 @@ if (window.location.hostname === "annemiekdelft.github.io") {
 
 const resultsList = document.querySelector("#results-list");
 const statusPill = document.querySelector("#status-pill");
-const feedbackHost = document.querySelector("#give-feedback-block");
-const feedbackButton = document.querySelector(".feedback-cta");
 
 function setStatus(label) {
   statusPill.textContent = label;
@@ -37,18 +35,6 @@ function appendResult(message, kind) {
 function debug(message, kind = "success") {
   appendResult(message, kind);
 }
-
-function collectFeedbackElements() {
-  return new Set(
-    Array.from(
-      document.querySelectorAll(
-        ".js-webf-survey-load-iframe-trigger-btn, .webf-injected-wrapper, .js-webf-survey-load-iframe-container"
-      )
-    )
-  );
-}
-
-let secondSurveyTrigger = null;
 
 function installFirstSurveyScript() {
   setStatus("Loading");
@@ -96,34 +82,6 @@ function installFirstSurveyScript() {
 }
 
 function installSecondSurveyScript() {
-  const existingElements = collectFeedbackElements();
-  const observer = new MutationObserver(() => {
-    const currentElements = Array.from(
-      document.querySelectorAll(".js-webf-survey-load-iframe-trigger-btn")
-    );
-    const newTrigger = currentElements.find((element) => !existingElements.has(element));
-
-    if (newTrigger) {
-      secondSurveyTrigger = newTrigger;
-      secondSurveyTrigger.style.display = "none";
-
-      const placeholder = feedbackHost ? feedbackHost.querySelector(".feedback-placeholder") : null;
-      if (placeholder) {
-        placeholder.textContent = "Use the Give Feedback button below to open the survey.";
-      }
-
-      if (feedbackButton) {
-        feedbackButton.hidden = false;
-      }
-
-      debug("Give Feedback button connected.");
-      observer.disconnect();
-    }
-  });
-
-  observer.observe(document.body, { childList: true, subtree: true });
-  window.setTimeout(() => observer.disconnect(), 15000);
-
   (function() {
       var a = document.createElement('script');
       a.src = 'https://web-f.insocial.nl/survey-loader-3.0.4.min.js';
@@ -138,6 +96,7 @@ function installSecondSurveyScript() {
           metadata: {
           }
       });
+      debug("Give Feedback button connected.");
       });
       document.head.appendChild(a);
   })();
@@ -145,11 +104,3 @@ function installSecondSurveyScript() {
 
 installFirstSurveyScript();
 installSecondSurveyScript();
-
-if (feedbackButton) {
-  feedbackButton.addEventListener("click", function () {
-    if (secondSurveyTrigger) {
-      secondSurveyTrigger.click();
-    }
-  });
-}
