@@ -6,213 +6,129 @@
     <title>Simple Website</title>
     <meta
       name="description"
-      content="Simple Website is a basic website demo with a modern layout and support for loading multiple external JavaScript files."
+      content="Simple Website is a clean, generic landing page with basic sections and embedded feedback areas."
     />
     <script>
       if (window.location.hostname === "annemiekdelft.github.io") {
         window.location.replace("https://simple-website-live.onrender.com");
       }
     </script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
-    <div class="page-shell">
-      <header class="site-header">
+    <header class="topbar">
+      <div class="topbar-inner">
         <a class="brand" href="#top">Simple Website</a>
-        <nav class="site-nav" aria-label="Primary navigation">
-          <a href="#about">About</a>
-          <a href="#features">Features</a>
-          <a href="#demo">Demo</a>
+        <nav class="main-nav" aria-label="Primary navigation">
+          <a href="#overview">Overview</a>
+          <a href="#categories">Categories</a>
+          <a href="#feedback">Feedback</a>
           <a href="#contact">Contact</a>
         </nav>
-      </header>
-
-      <main id="top">
-        <section class="hero">
-          <div class="hero-copy">
-            <p class="eyebrow">Basic Website Demo</p>
-            <h1>A simple website with a familiar layout and live script loading.</h1>
-            <p class="hero-text">
-              This demo page looks like a standard modern marketing site, but it
-              also includes a tool for loading multiple JavaScript files from other
-              websites in one place.
-            </p>
-            <div class="hero-actions">
-              <a class="button primary" href="#demo">Try The Demo</a>
-              <a class="button secondary" href="#features">See Sections</a>
-            </div>
-          </div>
-
-          <aside class="hero-panel">
-            <p class="panel-label">Live Demo Notes</p>
-            <ul class="hero-points">
-              <li>Header and navigation</li>
-              <li>Hero section with call to action</li>
-              <li>Feature cards and stats</li>
-              <li>External JavaScript loader</li>
-            </ul>
-          </aside>
-        </section>
-
-        <section class="stats" aria-label="Highlights">
-          <article>
-            <strong>04</strong>
-            <span>Main site sections</span>
-          </article>
-          <article>
-            <strong>Multi</strong>
-            <span>External scripts supported</span>
-          </article>
-          <article>
-            <strong>100%</strong>
-            <span>Static and easy to host</span>
-          </article>
-        </section>
-
-        <section class="content-section" id="about">
-          <div class="section-heading">
-            <p class="eyebrow">About</p>
-            <h2>Made to feel instantly familiar.</h2>
-          </div>
-          <div class="two-column">
-            <p>
-              Simple Website is a clean demo website with the kind of layout people
-              expect from a typical business or product page in 2026. It has clear
-              spacing, section headers, call-to-action buttons, cards, and a footer.
-            </p>
-            <p>
-              The extra twist is a built-in script loader so you can paste several
-              JavaScript URLs from other websites and load them dynamically from the
-              page interface.
-            </p>
-          </div>
-        </section>
-
-        <section class="content-section" id="features">
-          <div class="section-heading">
-            <p class="eyebrow">Features</p>
-            <h2>Everything a basic demo site needs.</h2>
-          </div>
-          <div class="card-grid">
-            <article class="card">
-              <h3>Modern Header</h3>
-              <p>
-                A simple top navigation that matches the structure most websites
-                use for quick scanning.
-              </p>
-            </article>
-            <article class="card">
-              <h3>Hero Section</h3>
-              <p>
-                A main intro area with a headline, support text, and a pair of
-                call-to-action buttons.
-              </p>
-            </article>
-            <article class="card">
-              <h3>Content Blocks</h3>
-              <p>
-                Reusable cards and text sections for presenting features, services,
-                or demo information.
-              </p>
-            </article>
-            <article class="card">
-              <h3>Script Loader</h3>
-              <p>
-                Paste one or more remote JavaScript URLs and load them directly
-                into the page with status feedback.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section class="content-section demo-section" id="demo">
-          <div class="section-heading">
-            <p class="eyebrow">Integration</p>
-            <h2>External scripts are built into the site directly.</h2>
-          </div>
-
-          <div class="demo-layout">
-            <article class="demo-card">
-              <h3>Script Integration</h3>
-              <p class="input-help">
-                This website now loads provided third-party scripts automatically
-                during page load instead of asking visitors to paste them into an
-                interface.
-              </p>
-              <p class="input-help">
-                The first connected script adds the InSocial survey tab handle on
-                the right side of the website.
-              </p>
-            </article>
-
-            <article class="demo-card results-card">
-              <div class="results-header">
-                <h3>Integration Status</h3>
-                <span id="status-pill" class="status-pill">Active</span>
-              </div>
-              <ul id="results-list" class="results-list">
-                <li>Survey tab script configured and loading automatically.</li>
-              </ul>
-            </article>
-          </div>
-        </section>
-
-        <section class="content-section" id="give-feedback">
-          <div class="section-heading">
-            <p class="eyebrow">Feedback</p>
-            <h2>Give Feedback</h2>
-          </div>
-          <article class="demo-card feedback-card">
-            <p class="input-help">
-              This block is reserved for the embedded feedback survey experience.
-            </p>
-            <div id="give-feedback-block" class="feedback-host">
-              <p class="feedback-placeholder">The feedback widget will appear here.</p>
-            </div>
-          </article>
-        </section>
-
-        <section class="content-section">
-          <div class="section-heading">
-            <p class="eyebrow">Sections</p>
-            <h2>Reusable content for a general-purpose website.</h2>
-          </div>
-          <div class="card-grid">
-            <article class="card">
-              <h3>Announcements</h3>
-              <p>Share updates, releases, or news in a clear card-based layout.</p>
-            </article>
-            <article class="card">
-              <h3>Services</h3>
-              <p>Describe what the business, app, or demo platform is offering.</p>
-            </article>
-            <article class="card">
-              <h3>Testimonials</h3>
-              <p>Swap this section for reviews, quotes, or trust-building content.</p>
-            </article>
-            <article class="card">
-              <h3>Call To Action</h3>
-              <p>Guide visitors toward contact, sign-up, bookings, or downloads.</p>
-            </article>
-          </div>
-        </section>
-      </main>
-
-      <footer class="site-footer" id="contact">
-        <div>
-          <p class="eyebrow">Contact</p>
-          <h2>Simple Website</h2>
-          <p>A basic website demo with support for multiple external scripts.</p>
+        <div class="topbar-actions">
+          <span class="search-pill">Search</span>
+          <span class="icon-pill"></span>
+          <span class="icon-pill"></span>
         </div>
-        <a class="button secondary" href="#top">Back To Top</a>
-      </footer>
-    </div>
+      </div>
+    </header>
+
+    <main id="top" class="page">
+      <section class="subnav">
+        <div class="subnav-inner">
+          <h1>Featured Offers</h1>
+          <div class="subnav-links">
+            <a href="#categories">Bundles</a>
+            <a href="#categories">Popular Picks</a>
+            <a href="#categories">New Arrivals</a>
+            <a href="#categories">Highlights</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="hero" id="overview">
+        <div class="hero-media">
+          <div class="shape shape-tall"></div>
+          <div class="shape shape-square"></div>
+          <div class="shape shape-small"></div>
+        </div>
+        <div class="hero-copy">
+          <p class="eyebrow">Seasonal Collection</p>
+          <h2>Simple blocks, clear sections, and a basic modern layout.</h2>
+          <p>
+            This page keeps the presentation generic and clean, with a standard
+            storefront structure, visual content blocks, and simple feedback areas.
+          </p>
+          <a class="button" href="#categories">Browse Sections</a>
+        </div>
+      </section>
+
+      <section class="intro">
+        <h2>Shop the current highlights</h2>
+        <p>
+          This demo website uses a straightforward layout with a hero banner,
+          section navigation, content cards, and a footer. It is intentionally
+          generic so it can be reused for many kinds of products or campaigns.
+        </p>
+      </section>
+
+      <section class="category-grid" id="categories">
+        <article class="category-card">
+          <div class="category-visual visual-one"></div>
+          <h3>Featured Products</h3>
+        </article>
+        <article class="category-card">
+          <div class="category-visual visual-two"></div>
+          <h3>Popular Collections</h3>
+        </article>
+        <article class="category-card">
+          <div class="category-visual visual-three"></div>
+          <h3>Everyday Essentials</h3>
+        </article>
+      </section>
+
+      <section class="content-block" id="feedback">
+        <div class="section-heading">
+          <p class="eyebrow">Feedback</p>
+          <h2>Give Feedback</h2>
+        </div>
+        <div id="give-feedback-block" class="feedback-host">
+          <p class="feedback-placeholder">The feedback widget will appear here.</p>
+          <div class="feedback-cta">Give Feedback</div>
+        </div>
+      </section>
+
+      <section class="content-block">
+        <div class="section-heading">
+          <p class="eyebrow">Information</p>
+          <h2>About this page</h2>
+        </div>
+        <div class="info-grid">
+          <article class="info-card">
+            <h3>Basic Layout</h3>
+            <p>A simple page structure with familiar navigation and content blocks.</p>
+          </article>
+          <article class="info-card">
+            <h3>Clean Visuals</h3>
+            <p>Neutral styling, soft panels, and generic placeholder visuals.</p>
+          </article>
+          <article class="info-card">
+            <h3>Embedded Feedback</h3>
+            <p>Feedback components can be displayed inside dedicated page sections.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer" id="contact">
+      <div class="footer-inner">
+        <div>
+          <h2>Simple Website</h2>
+          <p>A clean and generic website demo with reusable sections.</p>
+        </div>
+        <a class="button button-secondary" href="#top">Back to top</a>
+      </div>
+    </footer>
 
     <script src="./script.js"></script>
   </body>
