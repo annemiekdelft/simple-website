@@ -36,26 +36,22 @@ function installFirstSurveyScript() {
 
   try {
     (function () {
-      debug("Preparing InSocial survey snippet.");
       const a = document.createElement("script");
       a.src = "https://web-f.insocial.nl/survey-loader-3.0.4.min.js";
       a.integrity = "sha384-Y+0fCbU8M3M6Lj3HCnsEiQtZbRMynG4l0odZ9JRrHXUIUF+BmSgw/hynVfLfl+X4";
       a.async = true;
       a.crossOrigin = "anonymous";
       a.addEventListener("load", function () {
-        debug("InSocial loader script loaded.");
         if (!window.surveyLoader) {
           debug("Survey loader script loaded, but surveyLoader was not found.", "error");
           setStatus("Error");
           return;
         }
 
-        debug("surveyLoader found on window. Calling init().");
-
         try {
           window.surveyLoader.init({
             scriptId: "019d2446-2128-7bfb-a14a-18339d475df7",
-            apiBaseUrl: "https://uat-api.insocial.nl",
+            apiBaseUrl: `${window.location.origin}/insocial-api`,
             surveyBaseUrl: "https://uat-f.insocial.nl",
             metadata: {},
           });
@@ -65,7 +61,7 @@ function installFirstSurveyScript() {
           return;
         }
 
-        debug("surveyLoader.init() finished without throwing.");
+        debug("Survey tab script initialized.");
         setStatus("Active");
       });
       a.addEventListener("error", function () {
@@ -73,7 +69,6 @@ function installFirstSurveyScript() {
         setStatus("Error");
       });
       document.head.appendChild(a);
-      debug("InSocial script tag appended to document.head.");
     })();
   } catch (error) {
     debug(`Survey tab script failed before initialization: ${error.message}`, "error");
