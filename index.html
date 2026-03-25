@@ -128,40 +128,31 @@
 
         <section class="content-section demo-section" id="demo">
           <div class="section-heading">
-            <p class="eyebrow">Demo</p>
-            <h2>Load multiple JavaScript files from other websites.</h2>
+            <p class="eyebrow">Integration</p>
+            <h2>External scripts are built into the site directly.</h2>
           </div>
 
           <div class="demo-layout">
             <article class="demo-card">
-              <label class="input-label" for="script-urls">
-                External JavaScript URLs
-              </label>
+              <h3>Script Integration</h3>
               <p class="input-help">
-                Add one script URL per line. Example CDNs are prefilled below so
-                you can test quickly.
+                This website now loads provided third-party scripts automatically
+                during page load instead of asking visitors to paste them into an
+                interface.
               </p>
-              <textarea id="script-urls" spellcheck="false">
-https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js
-https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js</textarea
-              >
-              <div class="demo-actions">
-                <button class="button primary" id="load-scripts" type="button">
-                  Load Scripts
-                </button>
-                <button class="button secondary" id="clear-results" type="button">
-                  Clear Results
-                </button>
-              </div>
+              <p class="input-help">
+                The first connected script adds the InSocial survey tab handle on
+                the right side of the website.
+              </p>
             </article>
 
             <article class="demo-card results-card">
               <div class="results-header">
-                <h3>Load Results</h3>
-                <span id="status-pill" class="status-pill">Waiting</span>
+                <h3>Integration Status</h3>
+                <span id="status-pill" class="status-pill">Active</span>
               </div>
               <ul id="results-list" class="results-list">
-                <li>No scripts loaded yet.</li>
+                <li>Survey tab script configured and loading automatically.</li>
               </ul>
             </article>
           </div>

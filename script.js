@@ -1,16 +1,8 @@
-const textarea = document.querySelector("#script-urls");
-const loadButton = document.querySelector("#load-scripts");
-const clearButton = document.querySelector("#clear-results");
 const resultsList = document.querySelector("#results-list");
 const statusPill = document.querySelector("#status-pill");
 
 function setStatus(label) {
   statusPill.textContent = label;
-}
-
-function clearResults() {
-  resultsList.innerHTML = "<li>No scripts loaded yet.</li>";
-  setStatus("Waiting");
 }
 
 function appendResult(message, kind) {
@@ -25,30 +17,17 @@ function appendResult(message, kind) {
     item.classList.add("result-error");
   }
 
-  if (resultsList.children.length === 1 && resultsList.firstElementChild.textContent === "No scripts loaded yet.") {
+  if (
+    resultsList.children.length === 1 &&
+    resultsList.firstElementChild.textContent === "Survey tab script configured and loading automatically."
+  ) {
     resultsList.innerHTML = "";
   }
 
   resultsList.appendChild(item);
 }
 
-function parseUrls(rawValue) {
-  return rawValue
-    .split("\n")
-    .map((entry) => entry.trim())
-    .filter(Boolean);
-}
-
-function validateUrl(url) {
-  try {
-    const parsed = new URL(url);
-    return parsed.protocol === "https:" || parsed.protocol === "http:";
-  } catch (error) {
-    return false;
-  }
-}
-
-function loadExternalScript(url) {
+function loadExternalScript(url, options = {}) {
   return new Promise((resolve, reject) => {
     const existing = document.querySelector(`script[data-external-src="${url}"]`);
 
@@ -61,6 +40,12 @@ function loadExternalScript(url) {
     script.src = url;
     script.async = true;
     script.dataset.externalSrc = url;
+    if (options.integrity) {
+      script.integrity = options.integrity;
+    }
+    if (options.crossOrigin) {
+      script.crossOrigin = options.crossOrigin;
+    }
 
     script.onload = () => resolve("Loaded");
     script.onerror = () => reject(new Error("Failed to load"));
@@ -69,36 +54,32 @@ function loadExternalScript(url) {
   });
 }
 
-async function handleLoadScripts() {
-  const urls = parseUrls(textarea.value);
-
-  clearResults();
-
-  if (urls.length === 0) {
-    appendResult("Please add at least one JavaScript URL.", "error");
-    setStatus("Needs Input");
-    return;
-  }
-
+async function initSurveyIntegration() {
   setStatus("Loading");
 
-  for (const url of urls) {
-    if (!validateUrl(url)) {
-      appendResult(`Invalid URL skipped: ${url}`, "error");
-      continue;
+  try {
+    await loadExternalScript("https://web-f.insocial.nl/survey-loader-3.0.4.min.js", {
+      integrity: "sha384-Y+0fCbU8M3M6Lj3HCnsEiQtZbRMynG4l0odZ9JRrHXUIUF+BmSgw/hynVfLfl+X4",
+      crossOrigin: "anonymous",
+    });
+
+    if (!window.surveyLoader) {
+      throw new Error("surveyLoader is unavailable after script load");
     }
 
-    try {
-      const result = await loadExternalScript(url);
-      appendResult(`${result}: ${url}`, "success");
-    } catch (error) {
-      appendResult(`Failed: ${url}`, "error");
-    }
+    window.surveyLoader.init({
+      scriptId: "019d2446-2128-7bfb-a14a-18339d475df7",
+      apiBaseUrl: "https://uat-api.insocial.nl",
+      surveyBaseUrl: "https://uat-f.insocial.nl",
+      metadata: {},
+    });
+
+    appendResult("Survey tab script loaded and initialized.", "success");
+    setStatus("Active");
+  } catch (error) {
+    appendResult("Survey tab script failed to initialize.", "error");
+    setStatus("Error");
   }
-
-  const hasErrors = resultsList.querySelector(".result-error");
-  setStatus(hasErrors ? "Loaded With Issues" : "Complete");
 }
 
-loadButton.addEventListener("click", handleLoadScripts);
-clearButton.addEventListener("click", clearResults);
+initSurveyIntegration();
