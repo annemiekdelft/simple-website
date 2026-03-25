@@ -291,8 +291,9 @@ img {
 }
 
 .embedded-survey-host {
-  display: inline-block;
-  min-height: 0;
+  display: block;
+  width: min(100%, 860px);
+  min-height: 500px;
   margin-top: 28px;
   margin-left: auto;
   margin-right: auto;
@@ -310,13 +311,21 @@ img {
 }
 
 .embedded-survey-host .webf-injected-wrapper {
-  display: inline-block;
-  border-radius: 0;
+  display: block;
+  width: 100%;
+  min-width: 100%;
+  min-height: 500px;
+  border-radius: 12px;
   box-shadow: none;
-  width: auto;
-  min-width: 0;
-  max-width: none;
   vertical-align: top;
+}
+
+.embedded-survey-host .webf-survey-load-iframe-element,
+.embedded-survey-host .webf-survey-load-iframe-element--injected {
+  display: block;
+  width: 100% !important;
+  min-width: 100% !important;
+  min-height: 500px !important;
 }
 
 .feedback-action {
