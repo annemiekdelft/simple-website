@@ -7,10 +7,16 @@ const resultsList = document.querySelector("#results-list");
 const statusPill = document.querySelector("#status-pill");
 
 function setStatus(label) {
+  if (!statusPill) {
+    return;
+  }
   statusPill.textContent = label;
 }
 
 function appendResult(message, kind) {
+  if (!resultsList) {
+    return;
+  }
   const item = document.createElement("li");
   item.textContent = message;
 
