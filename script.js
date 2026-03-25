@@ -108,5 +108,27 @@ function installSecondSurveyScript() {
   })();
 }
 
+function installThirdSurveyScript() {
+  (function() {
+      var a = document.createElement('script');
+      a.src = 'https://web-f.insocial.nl/survey-loader-3.0.4.min.js';
+      a.integrity = 'sha384-Y+0fCbU8M3M6Lj3HCnsEiQtZbRMynG4l0odZ9JRrHXUIUF+BmSgw/hynVfLfl+X4';
+      a.async = 'true';
+      a.crossOrigin = 'anonymous';
+      a.addEventListener('load', function() {
+          surveyLoader.init({
+          scriptId: "019d243b-d171-7983-834c-61b3fd54bbe5",
+          apiBaseUrl: `${window.location.origin}/insocial-api`,
+          surveyBaseUrl: "https://uat-f.insocial.nl",
+          metadata: {
+          }
+      });
+      debug("Embedded survey connected.");
+      });
+      document.head.appendChild(a);
+  })();
+}
+
 installFirstSurveyScript();
 installSecondSurveyScript();
+installThirdSurveyScript();

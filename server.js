@@ -5,6 +5,7 @@ const app = express();
 const port = Number(process.env.PORT || 3000);
 const rootDir = __dirname;
 const targetApiBase = "https://uat-api.insocial.nl";
+const embeddedScriptId = "019d243b-d171-7983-834c-61b3fd54bbe5";
 
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: false }));
@@ -32,6 +33,21 @@ app.post("/insocial-api/v2/advanced-pop-up-script/:scriptId", async (req, res) =
     const text = await upstreamResponse.text();
     if (!text) {
       res.end();
+      return;
+    }
+
+    if (
+      upstreamResponse.ok &&
+      req.params.scriptId === embeddedScriptId &&
+      contentType &&
+      contentType.includes("application/json")
+    ) {
+      const payload = JSON.parse(text);
+      payload.settings = payload.settings || {};
+      payload.settings.trigger = ["inject"];
+      payload.settings.targetElement = "#embedded-survey-block";
+      delete payload.settings.customBtnSelector;
+      res.send(JSON.stringify(payload));
       return;
     }
 
