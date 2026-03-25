@@ -27,41 +27,56 @@ function appendResult(message, kind) {
   resultsList.appendChild(item);
 }
 
+function debug(message, kind = "success") {
+  appendResult(message, kind);
+}
+
 function installFirstSurveyScript() {
   setStatus("Loading");
 
   try {
     (function () {
+      debug("Preparing InSocial survey snippet.");
       const a = document.createElement("script");
       a.src = "https://web-f.insocial.nl/survey-loader-3.0.4.min.js";
       a.integrity = "sha384-Y+0fCbU8M3M6Lj3HCnsEiQtZbRMynG4l0odZ9JRrHXUIUF+BmSgw/hynVfLfl+X4";
       a.async = true;
       a.crossOrigin = "anonymous";
       a.addEventListener("load", function () {
+        debug("InSocial loader script loaded.");
         if (!window.surveyLoader) {
-          appendResult("Survey loader script loaded, but surveyLoader was not found.", "error");
+          debug("Survey loader script loaded, but surveyLoader was not found.", "error");
           setStatus("Error");
           return;
         }
 
-        window.surveyLoader.init({
-          scriptId: "019d2446-2128-7bfb-a14a-18339d475df7",
-          apiBaseUrl: "https://uat-api.insocial.nl",
-          surveyBaseUrl: "https://uat-f.insocial.nl",
-          metadata: {},
-        });
+        debug("surveyLoader found on window. Calling init().");
 
-        appendResult("Survey tab script loaded with the vendor init snippet.", "success");
+        try {
+          window.surveyLoader.init({
+            scriptId: "019d2446-2128-7bfb-a14a-18339d475df7",
+            apiBaseUrl: "https://uat-api.insocial.nl",
+            surveyBaseUrl: "https://uat-f.insocial.nl",
+            metadata: {},
+          });
+        } catch (error) {
+          debug(`surveyLoader.init() threw: ${error.message}`, "error");
+          setStatus("Error");
+          return;
+        }
+
+        debug("surveyLoader.init() finished without throwing.");
         setStatus("Active");
       });
       a.addEventListener("error", function () {
-        appendResult("Survey tab script failed to load from InSocial.", "error");
+        debug("Survey tab script failed to load from InSocial.", "error");
         setStatus("Error");
       });
       document.head.appendChild(a);
+      debug("InSocial script tag appended to document.head.");
     })();
   } catch (error) {
-    appendResult("Survey tab script failed before initialization.", "error");
+    debug(`Survey tab script failed before initialization: ${error.message}`, "error");
     setStatus("Error");
   }
 }
