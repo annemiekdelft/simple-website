@@ -1,5 +1,6 @@
 if (window.location.hostname === "annemiekdelft.github.io") {
   window.location.replace("https://simple-website-live.onrender.com");
+  throw new Error("Redirecting to Render deployment.");
 }
 
 const resultsList = document.querySelector("#results-list");
