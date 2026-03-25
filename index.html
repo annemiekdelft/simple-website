@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Website</title>
+    <meta
+      name="description"
+      content="Simple Website is a basic website demo with a modern layout and support for loading multiple external JavaScript files."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Instrument+Serif:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="page-shell">
+      <header class="site-header">
+        <a class="brand" href="#top">Simple Website</a>
+        <nav class="site-nav" aria-label="Primary navigation">
+          <a href="#about">About</a>
+          <a href="#features">Features</a>
+          <a href="#demo">Demo</a>
+          <a href="#contact">Contact</a>
+        </nav>
+      </header>
+
+      <main id="top">
+        <section class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Basic Website Demo</p>
+            <h1>A simple website with a familiar layout and live script loading.</h1>
+            <p class="hero-text">
+              This demo page looks like a standard modern marketing site, but it
+              also includes a tool for loading multiple JavaScript files from other
+              websites in one place.
+            </p>
+            <div class="hero-actions">
+              <a class="button primary" href="#demo">Try The Demo</a>
+              <a class="button secondary" href="#features">See Sections</a>
+            </div>
+          </div>
+
+          <aside class="hero-panel">
+            <p class="panel-label">Live Demo Notes</p>
+            <ul class="hero-points">
+              <li>Header and navigation</li>
+              <li>Hero section with call to action</li>
+              <li>Feature cards and stats</li>
+              <li>External JavaScript loader</li>
+            </ul>
+          </aside>
+        </section>
+
+        <section class="stats" aria-label="Highlights">
+          <article>
+            <strong>04</strong>
+            <span>Main site sections</span>
+          </article>
+          <article>
+            <strong>Multi</strong>
+            <span>External scripts supported</span>
+          </article>
+          <article>
+            <strong>100%</strong>
+            <span>Static and easy to host</span>
+          </article>
+        </section>
+
+        <section class="content-section" id="about">
+          <div class="section-heading">
+            <p class="eyebrow">About</p>
+            <h2>Made to feel instantly familiar.</h2>
+          </div>
+          <div class="two-column">
+            <p>
+              Simple Website is a clean demo website with the kind of layout people
+              expect from a typical business or product page in 2026. It has clear
+              spacing, section headers, call-to-action buttons, cards, and a footer.
+            </p>
+            <p>
+              The extra twist is a built-in script loader so you can paste several
+              JavaScript URLs from other websites and load them dynamically from the
+              page interface.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="features">
+          <div class="section-heading">
+            <p class="eyebrow">Features</p>
+            <h2>Everything a basic demo site needs.</h2>
+          </div>
+          <div class="card-grid">
+            <article class="card">
+              <h3>Modern Header</h3>
+              <p>
+                A simple top navigation that matches the structure most websites
+                use for quick scanning.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Hero Section</h3>
+              <p>
+                A main intro area with a headline, support text, and a pair of
+                call-to-action buttons.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Content Blocks</h3>
+              <p>
+                Reusable cards and text sections for presenting features, services,
+                or demo information.
+              </p>
+            </article>
+            <article class="card">
+              <h3>Script Loader</h3>
+              <p>
+                Paste one or more remote JavaScript URLs and load them directly
+                into the page with status feedback.
+              </p>
+            </article>
+          </div>
+        </section>
+
+        <section class="content-section demo-section" id="demo">
+          <div class="section-heading">
+            <p class="eyebrow">Demo</p>
+            <h2>Load multiple JavaScript files from other websites.</h2>
+          </div>
+
+          <div class="demo-layout">
+            <article class="demo-card">
+              <label class="input-label" for="script-urls">
+                External JavaScript URLs
+              </label>
+              <p class="input-help">
+                Add one script URL per line. Example CDNs are prefilled below so
+                you can test quickly.
+              </p>
+              <textarea id="script-urls" spellcheck="false">
+https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js
+https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js</textarea
+              >
+              <div class="demo-actions">
+                <button class="button primary" id="load-scripts" type="button">
+                  Load Scripts
+                </button>
+                <button class="button secondary" id="clear-results" type="button">
+                  Clear Results
+                </button>
+              </div>
+            </article>
+
+            <article class="demo-card results-card">
+              <div class="results-header">
+                <h3>Load Results</h3>
+                <span id="status-pill" class="status-pill">Waiting</span>
+              </div>
+              <ul id="results-list" class="results-list">
+                <li>No scripts loaded yet.</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+
+        <section class="content-section">
+          <div class="section-heading">
+            <p class="eyebrow">Sections</p>
+            <h2>Reusable content for a general-purpose website.</h2>
+          </div>
+          <div class="card-grid">
+            <article class="card">
+              <h3>Announcements</h3>
+              <p>Share updates, releases, or news in a clear card-based layout.</p>
+            </article>
+            <article class="card">
+              <h3>Services</h3>
+              <p>Describe what the business, app, or demo platform is offering.</p>
+            </article>
+            <article class="card">
+              <h3>Testimonials</h3>
+              <p>Swap this section for reviews, quotes, or trust-building content.</p>
+            </article>
+            <article class="card">
+              <h3>Call To Action</h3>
+              <p>Guide visitors toward contact, sign-up, bookings, or downloads.</p>
+            </article>
+          </div>
+        </section>
+      </main>
+
+      <footer class="site-footer" id="contact">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>Simple Website</h2>
+          <p>A basic website demo with support for multiple external scripts.</p>
+        </div>
+        <a class="button secondary" href="#top">Back To Top</a>
+      </footer>
+    </div>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
