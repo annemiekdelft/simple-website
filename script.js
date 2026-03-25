@@ -1,3 +1,7 @@
+if (window.location.hostname === "annemiekdelft.github.io") {
+  window.location.replace("https://simple-website-live.onrender.com");
+}
+
 const resultsList = document.querySelector("#results-list");
 const statusPill = document.querySelector("#status-pill");
 
