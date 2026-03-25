@@ -5,6 +5,7 @@ if (window.location.hostname === "annemiekdelft.github.io") {
 
 const resultsList = document.querySelector("#results-list");
 const statusPill = document.querySelector("#status-pill");
+const feedbackHost = document.querySelector("#give-feedback-block");
 
 function setStatus(label) {
   statusPill.textContent = label;
@@ -34,6 +35,47 @@ function appendResult(message, kind) {
 
 function debug(message, kind = "success") {
   appendResult(message, kind);
+}
+
+function collectFeedbackElements() {
+  return new Set(
+    Array.from(
+      document.querySelectorAll(
+        ".js-webf-survey-load-iframe-trigger-btn, .webf-injected-wrapper, .js-webf-survey-load-iframe-container"
+      )
+    )
+  );
+}
+
+function moveNewFeedbackElements(beforeElements) {
+  if (!feedbackHost) {
+    return false;
+  }
+
+  const currentElements = Array.from(
+    document.querySelectorAll(
+      ".js-webf-survey-load-iframe-trigger-btn, .webf-injected-wrapper, .js-webf-survey-load-iframe-container"
+    )
+  );
+
+  const newElements = currentElements.filter((element) => !beforeElements.has(element));
+  if (newElements.length === 0) {
+    return false;
+  }
+
+  const placeholder = feedbackHost.querySelector(".feedback-placeholder");
+  if (placeholder) {
+    placeholder.remove();
+  }
+
+  for (const element of newElements) {
+    if (element.classList.contains("js-webf-survey-load-iframe-trigger-btn")) {
+      element.classList.add("embedded-feedback-trigger");
+    }
+    feedbackHost.appendChild(element);
+  }
+
+  return true;
 }
 
 function installFirstSurveyScript() {
@@ -81,4 +123,40 @@ function installFirstSurveyScript() {
   }
 }
 
+function installSecondSurveyScript() {
+  const existingElements = collectFeedbackElements();
+  let placed = false;
+  const observer = new MutationObserver(() => {
+    if (!placed) {
+      placed = moveNewFeedbackElements(existingElements);
+      if (placed) {
+        debug("Give Feedback block connected.");
+        observer.disconnect();
+      }
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
+  window.setTimeout(() => observer.disconnect(), 15000);
+
+  (function() {
+      var a = document.createElement('script');
+      a.src = 'https://web-f.insocial.nl/survey-loader-3.0.4.min.js';
+      a.integrity = 'sha384-Y+0fCbU8M3M6Lj3HCnsEiQtZbRMynG4l0odZ9JRrHXUIUF+BmSgw/hynVfLfl+X4';
+      a.async = 'true';
+      a.crossOrigin = 'anonymous';
+      a.addEventListener('load', function() {
+          surveyLoader.init({
+          scriptId: "019d2440-d493-7bfb-9b96-e54a6a05b7c4",
+          apiBaseUrl: `${window.location.origin}/insocial-api`,
+          surveyBaseUrl: "https://uat-f.insocial.nl",
+          metadata: {
+          }
+      });
+      });
+      document.head.appendChild(a);
+  })();
+}
+
 installFirstSurveyScript();
+installSecondSurveyScript();

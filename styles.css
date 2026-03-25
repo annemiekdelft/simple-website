@@ -365,6 +365,41 @@ a:focus-visible {
   margin-top: 10px;
 }
 
+.feedback-host {
+  min-height: 180px;
+  padding: 18px;
+  border: 1px dashed var(--line);
+  border-radius: var(--radius-md);
+  background: rgba(255, 253, 248, 0.6);
+}
+
+.feedback-placeholder {
+  margin: 0;
+}
+
+.feedback-host .embedded-feedback-trigger {
+  position: static !important;
+  right: auto !important;
+  left: auto !important;
+  bottom: auto !important;
+  top: auto !important;
+  transform: none !important;
+  margin-top: 8px;
+}
+
+.feedback-host .webf-injected-wrapper,
+.feedback-host .js-webf-survey-load-iframe-container {
+  position: static !important;
+  inset: auto !important;
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+.feedback-host .js-webf-survey-load-iframe-element {
+  width: 100% !important;
+  min-height: 420px;
+}
+
 .result-success {
   color: var(--success);
 }
