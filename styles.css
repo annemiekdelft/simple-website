@@ -301,10 +301,12 @@ img {
   justify-content: center;
   margin-top: 18px;
   padding: 14px 22px;
+  border: 0;
   border-radius: var(--radius-sm);
   background: #111;
   color: #fff;
   font-weight: 700;
+  cursor: pointer;
 }
 
 .info-card {
@@ -327,29 +329,6 @@ img {
 
 .footer p {
   color: var(--muted);
-}
-
-.feedback-host .embedded-feedback-trigger {
-  position: static !important;
-  right: auto !important;
-  left: auto !important;
-  bottom: auto !important;
-  top: auto !important;
-  transform: none !important;
-  margin-top: 8px;
-}
-
-.feedback-host .webf-injected-wrapper,
-.feedback-host .js-webf-survey-load-iframe-container {
-  position: static !important;
-  inset: auto !important;
-  width: 100% !important;
-  max-width: 100% !important;
-}
-
-.feedback-host .js-webf-survey-load-iframe-element {
-  width: 100% !important;
-  min-height: 420px;
 }
 
 .result-success {
