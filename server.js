@@ -4,8 +4,19 @@ const path = require("path");
 const app = express();
 const port = Number(process.env.PORT || 3000);
 const rootDir = __dirname;
-const targetApiBase = "https://uat-api.insocial.nl";
-const embeddedScriptId = "019d243b-d171-7983-834c-61b3fd54bbe5";
+const targetApiBase = "https://api.insocial.nl";
+const insocialScriptId = "019ef977-1f10-7455-a046-7cced1c1655c";
+const placementOverrides = {
+  custom: {
+    customBtnSelector: "#survey-custom-element",
+    triggerConfig: { visible: false },
+  },
+  embedded: {
+    trigger: ["inject"],
+    targetElement: "#embedded-survey-block",
+    triggerConfig: { visible: false },
+  },
+};
 
 app.use(express.json({ limit: "1mb" }));
 app.use(express.urlencoded({ extended: false }));
@@ -14,13 +25,18 @@ app.post("/insocial-api/v2/advanced-pop-up-script/:scriptId", async (req, res) =
   const upstreamUrl = `${targetApiBase}/v2/advanced-pop-up-script/${encodeURIComponent(req.params.scriptId)}`;
 
   try {
+    const upstreamBody = {
+      ...(req.body ?? {}),
+      isDemo: Boolean(req.body?.isDemo || req.body?.metadata?.demo),
+    };
+
     const upstreamResponse = await fetch(upstreamUrl, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(req.body ?? {}),
+      body: JSON.stringify(upstreamBody),
     });
 
     res.status(upstreamResponse.status);
@@ -36,17 +52,35 @@ app.post("/insocial-api/v2/advanced-pop-up-script/:scriptId", async (req, res) =
       return;
     }
 
-    if (
-      upstreamResponse.ok &&
-      req.params.scriptId === embeddedScriptId &&
-      contentType &&
-      contentType.includes("application/json")
-    ) {
+    if (upstreamResponse.ok && req.params.scriptId === insocialScriptId && contentType && contentType.includes("application/json")) {
       const payload = JSON.parse(text);
+      const placement = req.body?.metadata?.placement;
+      const override = placementOverrides[placement];
+
+      if (!override) {
+        res.send(JSON.stringify(payload));
+        return;
+      }
+
+      payload.id = `${payload.id}-${placement}`;
       payload.settings = payload.settings || {};
-      payload.settings.trigger = ["inject"];
-      payload.settings.targetElement = "#embedded-survey-block";
-      delete payload.settings.customBtnSelector;
+      payload.settings = {
+        ...payload.settings,
+        ...override,
+        triggerConfig: {
+          ...(payload.settings.triggerConfig || {}),
+          ...(override.triggerConfig || {}),
+        },
+      };
+
+      if (placement === "custom") {
+        delete payload.settings.targetElement;
+      }
+
+      if (placement === "embedded") {
+        delete payload.settings.customBtnSelector;
+      }
+
       res.send(JSON.stringify(payload));
       return;
     }
